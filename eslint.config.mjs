@@ -1,10 +1,10 @@
 import eslint from '@eslint/js';
-import globals from 'globals';
 import importPlugin from 'eslint-plugin-import';
 import jsdocPlugin from 'eslint-plugin-jsdoc';
 import prettierPlugin from 'eslint-plugin-prettier';
 import securityPlugin from 'eslint-plugin-security';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
+import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
@@ -66,7 +66,14 @@ export default tseslint.config(
           groups: [
             ['^\\u0000'],
             ['^node:', '^@?\\w'],
-            ['^@app(/.*)?$', '^@modules(/.*)?$', '^@shared(/.*)?$', '^@itak-dale(/.*)?$'],
+            [
+              '^@app(/.*)?$',
+              '^@modules(/.*)?$',
+              '^@shared(/.*)?$',
+              '^@itak-dale(/.*)?$',
+              '^@config(/.*)?$',
+              '^@prisma(/.*)?$',
+            ],
             ['^@/(.*)$', '^src/(.*)$'],
             ['^\\.\\.(?!/?$)', '^\\.\\./?$'],
             ['^\\./(?=.*/)', '^\\.(?!/?$)', '^\\./?$'],

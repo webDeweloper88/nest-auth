@@ -1,0 +1,53 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: auth_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U $POSTGRES_USER -d $POSTGRES_DB']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    # Открой на хост только при необходимости (удобно для локальной разработки)
+    ports:
+      - '127.0.0.1:5432:5432'
+    networks:
+      - internal
+
+  redis:
+    image: redis:7-alpine
+    container_name: auth_redis
+    restart: unless-stopped
+    command: >
+      sh -c "redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}"
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ['CMD-SHELL', 'redis-cli -a "$REDIS_PASSWORD" ping | grep PONG']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    ports:
+      - '127.0.0.1:6379:6379'
+    networks:
+      - internal
+
+networks:
+  internal:
+    driver: bridge
+    internal: true # изолированная сеть (снаружи к контейнерам не попасть)
+
+volumes:
+  pgdata:
+  redisdata:
