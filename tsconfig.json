@@ -23,6 +23,8 @@
     "noFallthroughCasesInSwitch": false,
     "paths": {
       "@app/*": ["src/app/*"],
+      "@config/*": ["src/config/*"],
+      "@prisma/*": ["src/prisma/*"],
       "@shared/*": ["src/shared/*"],
       "@modules/*": ["src/modules/*"],
       "@itak-dale/*": ["src/itak-dale/*"]

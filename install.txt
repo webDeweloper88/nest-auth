@@ -1,0 +1,6 @@
+npm i @nestjs/config helmet compression cookie-parser
+npm i -D @types/cookie-parser
+# Валидация .env через Joi
+npm i joi
+# Валидация DTO
+npm i class-validator class-transformer
